@@ -1,1 +1,0 @@
-web: gunicorn afisha_monte.wsgi

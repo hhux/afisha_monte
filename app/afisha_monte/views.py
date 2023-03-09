@@ -1,10 +1,11 @@
 from django.http import HttpResponse
 from rest_framework import generics
 from rest_framework.response import Response
-from .utils import generate_id
+
 from .fb_module import get_last_fb_post
 from .models import FacebookPost, FacebookUrl
 from .serializers import FacebookPostSerializer, FacebookCreatePostSerializer, FacebookUrlSerializer
+from .utils import generate_id
 
 
 def index(request):
@@ -81,7 +82,6 @@ class FacebookCreateUrlView(generics.CreateAPIView):
 
 
 def test(request):
-
     updated_posts = []
 
     all_facebook_urls = FacebookUrl.objects.all()
@@ -92,9 +92,9 @@ def test(request):
     for facebook_url in all_facebook_urls:
         fb_post = get_last_fb_post(facebook_url.url)
         fb_post_id = generate_id((fb_post['text'], fb_post['time'], fb_post['timestamp']))
-        last_post = FacebookPost.objects.filter(post_id=fb_post_id) #TODO и активный
+        last_post = FacebookPost.objects.filter(post_id=fb_post_id)
         if not last_post:
-            all_facebook_posts = FacebookPost.objects.filter(url=facebook_url) # URL !!
+            all_facebook_posts = FacebookPost.objects.filter(url=facebook_url)
             for post in all_facebook_posts:
                 post.is_active = False
                 post.save()
@@ -105,8 +105,5 @@ def test(request):
             new_post.is_active = True
             new_post.save()
             updated_posts.append(new_post)
-            # TODO создать пост через дженерик
-            # деактивировать все посты со статусом is_active=True (меняем на is_active=False)
-            # по урлу и добавить новый пост со статусом is_active=True
 
-    return updated_posts  #TODO  updated posts !
+    return updated_posts
