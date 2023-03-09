@@ -29,6 +29,9 @@ services:
       - 1337:80
     depends_on:
       - web
+  heroku:
+    app: hellomonte
+    stack: container
 volumes:
     postgres_data:
     static_volume:
