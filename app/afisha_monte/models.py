@@ -3,6 +3,14 @@ import uuid
 from django.db import models
 
 
+class FacebookUrl(models.Model):
+    """
+    Модель Urls. Содержит урл по которому скрипт будет парсить посты
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    url = models.CharField(max_length=2048, unique=True)
+
+
 class FacebookPost(models.Model):
     """
     Модель Post - пост с фейсбука
@@ -11,32 +19,33 @@ class FacebookPost(models.Model):
     original_request_url: str
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    facebook_url_id = models.ForeignKey(FacebookUrl, on_delete=models.CASCADE, related_name='facebook_url_id')
 
-    original_request_url = models.CharField(max_length=512)
-    post_url = models.CharField(max_length=512)
-    post_id = models.CharField(max_length=512)
-    text = models.CharField(max_length=512)
-    post_text = models.CharField(max_length=512)
-    shared_text = models.CharField(max_length=512)
-    original_text = models.BooleanField()
+    original_request_url = models.CharField(max_length=2048)
+    post_url = models.CharField(max_length=2048, null=True)
+    post_id = models.UUIDField(null=True)
+    text = models.CharField(max_length=2048, null=True)
+    post_text = models.CharField(max_length=2048, null=True)
+    shared_text = models.CharField(max_length=2048, null=True)
+    original_text = models.CharField(max_length=2048, null=True)
     time = models.DateTimeField()
-    timestamp = models.IntegerField()
-    image = models.BooleanField()
-    image_lowquality = models.CharField(max_length=512)
-    images = models.CharField(max_length=512)
-    images_description = models.CharField(max_length=512)
-    images_lowquality = models.CharField(max_length=512)
+    timestamp = models.IntegerField()  # TODO проверить тип данных
+    image = models.CharField(max_length=2048, null=True)
+    image_lowquality = models.CharField(max_length=2048, null=True)
+    images = models.CharField(max_length=2048, null=True)
+    images_description = models.CharField(max_length=2048, null=True)
+    images_lowquality = models.CharField(max_length=2048, null=True)
+    images_lowquality_description = models.CharField(max_length=2048, null=True)
 
-    video = models.CharField(max_length=512)
-    video_id = models.CharField(max_length=512)
-    video_watches = models.BooleanField()
-    likes = models.IntegerField()
-    comments = models.IntegerField()
-    shares = models.IntegerField()
+    video = models.CharField(max_length=2048, null=True)  # TODO !
+    video_id = models.CharField(max_length=2048, null=True)
+    video_watches = models.BooleanField(null=True)
+    likes = models.IntegerField(null=True)
+    comments = models.IntegerField(null=True)
+    shares = models.IntegerField(null=True)
+    is_approved = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
 
-
-class FacebookUrl(models.Model):
-    """
-    Модель Urls. Содержит урл по которому скрипт будет парсить посты
-    """
-    url = models.CharField(max_length=512)
+    @classmethod
+    def get_model_fields(cls):
+        return [field.name for field in cls._meta.fields]
