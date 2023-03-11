@@ -9,6 +9,7 @@ class FacebookUrl(models.Model):
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     url = models.CharField(max_length=2048, unique=True)
+    created = models.DateTimeField(auto_now=True)
 
 
 class FacebookPost(models.Model):
@@ -21,6 +22,7 @@ class FacebookPost(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     facebook_url_id = models.ForeignKey(FacebookUrl, on_delete=models.CASCADE, related_name='facebook_url_id')
 
+    created = models.DateTimeField(auto_now=True)
     original_request_url = models.CharField(max_length=2048)
     post_url = models.CharField(max_length=2048, null=True)
     post_id = models.UUIDField(null=True)

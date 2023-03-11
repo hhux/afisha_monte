@@ -1,5 +1,7 @@
 from django.http import HttpResponse
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .fb_module import get_last_fb_post
@@ -18,6 +20,9 @@ class FacebookPostsRetrieveView(generics.ListAPIView):
     """
     queryset = FacebookPost.objects.all()
     serializer_class = FacebookPostSerializer
+    filter_backends = [DjangoFilterBackend]
+    permission_classes = [IsAuthenticated]
+    filterset_fields = ['is_active', 'is_approved']
 
 
 class FacebookPostRetrieveView(generics.RetrieveAPIView):
@@ -26,6 +31,7 @@ class FacebookPostRetrieveView(generics.RetrieveAPIView):
     """
     queryset = FacebookPost.objects.all()
     serializer_class = FacebookPostSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class FacebookCreatePostView(generics.CreateAPIView):
@@ -34,6 +40,7 @@ class FacebookCreatePostView(generics.CreateAPIView):
     """
     queryset = FacebookPost.objects.all()
     serializer_class = FacebookCreatePostSerializer
+    permission_classes = [IsAuthenticated]
     # уточним по поводу функционала на разных пользаках системы
     # permission_classes = (permissions.IsAuthenticated,)
 
@@ -44,6 +51,7 @@ class FacebookUrlRetrieveView(generics.RetrieveAPIView):
     """
     queryset = FacebookUrl.objects.all()
     serializer_class = FacebookUrlSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class FacebookUrlsRetrieveView(generics.ListAPIView):
@@ -52,6 +60,7 @@ class FacebookUrlsRetrieveView(generics.ListAPIView):
     """
     queryset = FacebookUrl.objects.all()
     serializer_class = FacebookUrlSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class FacebookCreateUrlView(generics.CreateAPIView):
@@ -60,6 +69,7 @@ class FacebookCreateUrlView(generics.CreateAPIView):
     """
     queryset = FacebookPost.objects.all()
     serializer_class = FacebookUrlSerializer
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs) -> Response:
         """

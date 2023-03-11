@@ -8,3 +8,6 @@ djangorestframework==3.12.4
 djangorestframework-simplejwt==4.8.0
 facebook_scraper==0.2.59
 whitenoise==5.3.0
+schedule==1.1.0
+django-filter==21.1
+djangorestframework-simplejwt==4.8.0
