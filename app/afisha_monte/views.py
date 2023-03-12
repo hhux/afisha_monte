@@ -121,4 +121,4 @@ def check_posts(request):
             new_post.save()
             updated_posts.append(new_post)
 
-    return Response(updated_posts, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_200_OK)
