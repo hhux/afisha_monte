@@ -94,7 +94,7 @@ class FacebookCreateUrlView(generics.CreateAPIView):
 
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
+# @authentication_classes([SessionAuthentication, BasicAuthentication])
 @permission_classes([IsAuthenticated])
 def check_posts(request):
     updated_posts = []
@@ -109,7 +109,7 @@ def check_posts(request):
         fb_post_id = generate_id((fb_post['text'], fb_post['time'], fb_post['timestamp']))
         last_post = FacebookPost.objects.filter(post_id=fb_post_id)
         if not last_post:
-            all_facebook_posts = FacebookPost.objects.filter(url=facebook_url)
+            all_facebook_posts = FacebookPost.objects.filter(post_url=facebook_url)
             for post in all_facebook_posts:
                 post.is_active = False
                 post.save()
