@@ -9,7 +9,8 @@ FB_PASSWORD = 'Shtanga228'
 def get_last_fb_post(url):
     posts = get_posts(
         post_urls=[url],
-        credentials=(FB_LOGIN, FB_PASSWORD),
-        options={"comments": True}
+        # credentials=(FB_LOGIN, FB_PASSWORD),
+        options={"comments": True},
+        cookies='../cookie.txt'
     )
     return next(posts, {})

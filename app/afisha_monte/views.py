@@ -102,7 +102,7 @@ def check_posts(request):
     all_facebook_urls = FacebookUrl.objects.all()
 
     if not all_facebook_urls:
-        return
+        return Response(status=status.HTTP_200_OK)
 
     for facebook_url in all_facebook_urls:
         fb_post = get_last_fb_post(facebook_url.url)
