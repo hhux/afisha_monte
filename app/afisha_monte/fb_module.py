@@ -1,5 +1,4 @@
 from facebook_scraper import get_posts
-from facebook_scraper_in import *
 # FB_LOGIN = os.environ['FB_LOGIN']
 # FB_PASSWORD = os.environ['FB_PASSWORD']
 FB_LOGIN = 'admitry564@gmail.com'
