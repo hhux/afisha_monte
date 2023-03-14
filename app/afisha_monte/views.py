@@ -71,7 +71,7 @@ class FacebookCreateUrlView(generics.CreateAPIView):
     """
     queryset = FacebookPost.objects.all()
     serializer_class = FacebookUrlSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs) -> Response:
         """
@@ -95,7 +95,7 @@ class FacebookCreateUrlView(generics.CreateAPIView):
 
 @api_view(['GET'])
 # @authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def check_posts(request):
     updated_posts = []
 
