@@ -4,7 +4,7 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework.decorators import api_view
 # from rest_framework.decorators import permission_classes
-from rest_framework.permissions import IsAuthenticated
+# from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .fb_module import get_last_fb_post
@@ -43,7 +43,7 @@ class FacebookCreatePostView(generics.CreateAPIView):
     """
     queryset = FacebookPost.objects.all()
     serializer_class = FacebookCreatePostSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     # уточним по поводу функционала на разных пользаках системы
     # permission_classes = (permissions.IsAuthenticated,)
 
@@ -111,7 +111,7 @@ def check_posts(request):
         fb_post_id = generate_id((fb_post['text'], fb_post['time'], fb_post['timestamp']))
         last_post = FacebookPost.objects.filter(post_id=fb_post_id)
         if not last_post:
-            all_facebook_posts = FacebookPost.objects.filter(post_url=facebook_url)
+            all_facebook_posts = FacebookPost.objects.filter(original_request_url=facebook_url.url)
             for post in all_facebook_posts:
                 post.is_active = False
                 post.save()

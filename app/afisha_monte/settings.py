@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'rest_framework_simplejwt',
-    'whitenoise.runserver_nostatic'
+    'whitenoise.runserver_nostatic',
 
 ]
 
