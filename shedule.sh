@@ -1,20 +1,21 @@
 #!/bin/bash
 
-AUTH=$(curl --location 'http://127.0.0.1:8000/api/token/' \
+AUTH=$(curl --location 'http://185.188.181.170:8000/api/token/' \
 --header 'Content-Type: application/json' \
 --data '{
     "username":
-        "admin"
+        "Monteluck"
     ,
     "password":
-        "admin"
+        "Zuba3478*"
 
 }')
 
-biba=$(echo "$AUTH" | jq '.access')
+token=$(echo "$AUTH" | jq '.access')
 
+token=$(eval echo $biba)
+curl --location 'http://185.188.181.170:8000/check_posts' \
+--header "Authorization: Bearer $token" \
 
-
-biba=$(eval echo $biba)
-curl --location 'http://127.0.0.1:8000/check_posts' \
---header "Authorization: Bearer $biba" \
+current_date_time=$(date)
+echo "Started date and time: $current_date_time"

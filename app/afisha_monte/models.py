@@ -18,6 +18,7 @@ class FacebookPost(models.Model):
 
     fields:
     original_request_url: str
+    #TODO уточнить у заказчика какие поля будем сохранять + дописать аннотацию типов
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     facebook_url_id = models.ForeignKey(FacebookUrl, on_delete=models.CASCADE, related_name='facebook_url_id')

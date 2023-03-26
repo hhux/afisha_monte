@@ -3,8 +3,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.decorators import api_view
-# from rest_framework.decorators import permission_classes
-# from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .fb_module import get_last_fb_post
@@ -14,7 +14,7 @@ from .utils import generate_id
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return HttpResponse("Hello, world.")
 
 
 class FacebookPostsRetrieveView(generics.ListAPIView):
@@ -24,7 +24,7 @@ class FacebookPostsRetrieveView(generics.ListAPIView):
     queryset = FacebookPost.objects.all()
     serializer_class = FacebookPostSerializer
     filter_backends = [DjangoFilterBackend]
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     filterset_fields = ['is_active', 'is_approved']
 
 
@@ -34,7 +34,7 @@ class FacebookPostRetrieveView(generics.RetrieveAPIView):
     """
     queryset = FacebookPost.objects.all()
     serializer_class = FacebookPostSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class FacebookCreatePostView(generics.CreateAPIView):
@@ -43,7 +43,7 @@ class FacebookCreatePostView(generics.CreateAPIView):
     """
     queryset = FacebookPost.objects.all()
     serializer_class = FacebookCreatePostSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     # уточним по поводу функционала на разных пользаках системы
     # permission_classes = (permissions.IsAuthenticated,)
 
@@ -54,7 +54,7 @@ class FacebookUrlRetrieveView(generics.RetrieveAPIView):
     """
     queryset = FacebookUrl.objects.all()
     serializer_class = FacebookUrlSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class FacebookUrlsRetrieveView(generics.ListAPIView):
@@ -63,7 +63,7 @@ class FacebookUrlsRetrieveView(generics.ListAPIView):
     """
     queryset = FacebookUrl.objects.all()
     serializer_class = FacebookUrlSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class FacebookCreateUrlView(generics.CreateAPIView):
@@ -73,15 +73,15 @@ class FacebookCreateUrlView(generics.CreateAPIView):
     queryset = FacebookPost.objects.all()
     serializer_class = FacebookUrlSerializer
 
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs) -> Response:
         """
         Функция создания поста по урлу
-        :param request:
-        :param args:
+        :param request: запрос по урлу domen.ru/facebook_url/new/
+        :param args: урл
         :param kwargs:
-        :return:
+        :return: сериализованный response и запись в БД
         """
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
@@ -97,8 +97,13 @@ class FacebookCreateUrlView(generics.CreateAPIView):
 
 @api_view(['GET'])
 # @authentication_classes([SessionAuthentication, BasicAuthentication])
-# @permission_classes([IsAuthenticated])
-def check_posts(request):
+@permission_classes([IsAuthenticated])
+def check_posts(request) -> Response:
+    """
+    Ручка check_posts опрашивает все записанные урлы на предмет изменения последних постов
+    :param request: запрос по урлу domen.ru/check_posts/
+    :return: возвращает 200 и создает пост, если этого поста не было в БД
+    """
     updated_posts = []
 
     all_facebook_urls = FacebookUrl.objects.all()
