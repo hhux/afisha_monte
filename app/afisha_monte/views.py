@@ -48,6 +48,25 @@ class FacebookCreatePostView(generics.CreateAPIView):
     # permission_classes = (permissions.IsAuthenticated,)
 
 
+class FacebookPostUpdateView(generics.UpdateAPIView):
+    """"
+    Дженерик получения всех постов FacebookPost
+    """
+    queryset = FacebookPost.objects.all()
+    serializer_class = FacebookCreatePostSerializer
+    filter_backends = [DjangoFilterBackend]
+    # permission_classes = [IsAuthenticated]
+
+
+class FacebookPostDeleteView(generics.DestroyAPIView):
+    """"
+    Дженерик удаления объекта Person
+    """
+    queryset = FacebookPost.objects.all()
+    serializer_class = FacebookCreatePostSerializer
+    # permission_classes = [IsAuthenticated]
+
+
 class FacebookUrlRetrieveView(generics.RetrieveAPIView):
     """"
     Дженерик чтения объекта Url по айди
