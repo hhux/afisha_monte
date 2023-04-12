@@ -55,16 +55,16 @@ class FacebookPostUpdateView(generics.UpdateAPIView):
     queryset = FacebookPost.objects.all()
     serializer_class = FacebookCreatePostSerializer
     filter_backends = [DjangoFilterBackend]
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class FacebookPostDeleteView(generics.DestroyAPIView):
     """"
-    Дженерик удаления объекта Person
+    Дженерик удаления объекта Post
     """
     queryset = FacebookPost.objects.all()
     serializer_class = FacebookCreatePostSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class FacebookUrlRetrieveView(generics.RetrieveAPIView):
@@ -85,13 +85,21 @@ class FacebookUrlsRetrieveView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
 
+class FacebookUrlDeleteView(generics.DestroyAPIView):
+    """"
+    Дженерик удаления объекта Url
+    """
+    queryset = FacebookUrl.objects.all()
+    serializer_class = FacebookUrlSerializer
+    permission_classes = [IsAuthenticated]
+
+
 class FacebookCreateUrlView(generics.CreateAPIView):
     """"
     Дженерик создания объекта Url
     """
     queryset = FacebookPost.objects.all()
     serializer_class = FacebookUrlSerializer
-
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs) -> Response:

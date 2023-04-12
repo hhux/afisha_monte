@@ -3,7 +3,8 @@ from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
 
 from .views import FacebookPostRetrieveView, FacebookPostsRetrieveView, FacebookCreatePostView, FacebookCreateUrlView, \
-    FacebookUrlsRetrieveView, FacebookUrlRetrieveView, check_posts, FacebookPostUpdateView, FacebookPostDeleteView
+    FacebookUrlsRetrieveView, FacebookUrlRetrieveView, check_posts, FacebookPostUpdateView, FacebookPostDeleteView, \
+    FacebookUrlDeleteView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -19,6 +20,7 @@ urlpatterns = [
     path('facebook_url/<uuid:pk>/', FacebookUrlRetrieveView.as_view()),
     path('facebook_urls/', FacebookUrlsRetrieveView.as_view()),
     path('facebook_url/new', FacebookCreateUrlView.as_view()),
+    path('facebook_url/<uuid:pk>/delete', FacebookUrlDeleteView.as_view()),
 
     # ------- auth ---------
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
